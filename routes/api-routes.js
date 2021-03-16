@@ -5,8 +5,8 @@ module.exports = (app) => {
   app.get("/api/workouts", (req, res) => {
     Workout.find()
       .sort({ _id: 1 })
-      .then((dbWorkout) => {
-        res.json(dbWorkout);
+      .then((data) => {
+        res.json(data);
       })
       .catch((err) => {
         res.json(err);
