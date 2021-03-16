@@ -3,20 +3,14 @@ const Workout = require("../models/workout");
 
 module.exports = (app) => {
   app.get("/api/workouts", (req, res) => {
-    Workout.find({})
-      .then((data) => {
-        res.json(data);
+    Workout.find()
+      .sort({ _id: 1 })
+      .then((dbWorkout) => {
+        res.json(dbWorkout);
       })
-      .catch((error) => res.json(error));
-  });
-
-  app.get("/api/workouts", (req, res) => {
-    Workout.findOne()
-      .sort({ created_at: -1 })
-      .then((data) => {
-        res.json(data);
-      })
-      .catch((error) => res.json(error));
+      .catch((err) => {
+        res.json(err);
+      });
   });
 
   app.post("/api/workouts", (req, res) => {
@@ -28,14 +22,25 @@ module.exports = (app) => {
   });
 
   app.put("/api/workouts/:id", (req, res) => {
-    const currentWorkout = req.params.id;
-    Workout.findByIdAndUpdate(currentWorkout, {
-      $push: { exercises: req.body },
-    })
-      .then((data) => {
-        res.json(data);
+    Workout.findOneAndUpdate(
+      { _id: req.params.id },
+      { $push: { exercises: req.body } }
+    )
+      .then(() => {
+        Workout.findOneAndUpdate(
+          { _id: req.params.id },
+          { $inc: { totalDuration: req.body.duration } }
+        )
+          .then((updatedWorkout) => {
+            res.json(updatedWorkout);
+          })
+          .catch((err) => {
+            res.json(err);
+          });
       })
-      .catch((error) => res.json(error));
+      .catch((err) => {
+        res.json(err);
+      });
   });
 
   app.get("/api/workouts/range", (req, res) => {
