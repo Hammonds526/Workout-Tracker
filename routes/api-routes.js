@@ -18,8 +18,10 @@ module.exports = (app) => {
       .then((data) => {
         res.json(data);
       })
-      .catch((error) => res.json(error));
+      .catch((err) => {
+        res.json(err);
   });
+})
 
   app.put("/api/workouts/:id", (req, res) => {
     Workout.findOneAndUpdate(
@@ -38,9 +40,6 @@ module.exports = (app) => {
             res.json(err);
           });
       })
-      .catch((err) => {
-        res.json(err);
-      });
   });
 
   app.get("/api/workouts/range", (req, res) => {
@@ -53,6 +52,9 @@ module.exports = (app) => {
           res.json(data);
         }
       })
-      .catch((error) => res.json(error));
-  });
-};
+      .catch((err) => {
+        res.json(err);
+      })
+    });
+
+}
