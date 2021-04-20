@@ -14,7 +14,7 @@
 - [License](#license)
 
 ## Live Site
-[View Now](https://salty-cliffs-88136.herokuapp.com/?id=60504ff0e445a3001517ae3b)
+[View Now](https://salty-cliffs-88136.herokuapp.com/)
 
 ## Description
 Easy tool to keep track of your workout schedule
